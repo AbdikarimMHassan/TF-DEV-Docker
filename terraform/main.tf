@@ -19,5 +19,5 @@ resource "random_pet" "greeting" {
 
 resource "local_file" "greeting" {
   filename = "${path.module}/output/greeting.txt"
-  content  = "  ${var.hello_there} ${var.engineer_name}! Your random pet name is: ${random_pet.greeting.id}\n"
+  content  = " ${var.greeting} ${var.hello_there} ${var.engineer_name}! Your random pet name is: ${random_pet.greeting.id}\n"
 }
