@@ -1,0 +1,47 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  branch-naming:
+    name: Check branch naming convention
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch name
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+        run: |
+          echo "Branch name: $BRANCH_NAME"
+          if [[ ! "$BRANCH_NAME" =~ ^[a-z]+-[0-9]+-[a-z0-9-]+$ ]]; then
+            echo "::error::Branch name '$BRANCH_NAME' does not match the required pattern <prefix>-<ticket-number>-<short-descriptor>, e.g. pd-1001-add-greeting-var"
+            exit 1
+          fi
+          echo "Branch name looks good."
+
+  terraform:
+    name: Terraform fmt / validate / plan (in Docker)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build terraform dev image
+        run: docker build -t central-workflows-terraform:ci -f terraform.Dockerfile .
+
+      - name: Terraform fmt / init / validate / plan
+        # Same image locally and in CI: no separate "install terraform on
+        # the runner" step, no version drift between your machine and CI.
+        # engineer_name has no default (see variables.tf), so CI supplies
+        # its own value here instead of relying on a gitignored .env.
+        env:
+          TF_VAR_engineer_name: "GitHub Actions CI"
+        run: |
+          docker run --rm \
+            -e TF_VAR_engineer_name \
+            -v "${PWD}":"${PWD}" \
+            --workdir "${PWD}/terraform" \
+            central-workflows-terraform:ci \
+            bash -c "terraform fmt -check -recursive && terraform init && terraform validate && terraform plan -no-color"

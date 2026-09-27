@@ -1,0 +1,5 @@
+# Alternative to .env / TF_VAR_engineer_name: copy this file to
+# terraform.auto.tfvars (gitignored) and Terraform will load it
+# automatically on every plan/apply, no export needed.
+
+engineer_name = "Your Name"

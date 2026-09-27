@@ -1,0 +1,11 @@
+# Local secrets / per-engineer values — copy the *_example files instead
+.env
+*.auto.tfvars
+
+# Terraform local state and provider cache
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+
+# Generated output from the local_file resource
+terraform/output/
