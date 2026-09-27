@@ -1,7 +1,6 @@
 # Contributing
 
-This repo is a personal practice sandbox that mirrors the real PR/CI workflow
-used at PerfectDraft (AB InBev), for hands-on practice with the git +
+This repo is a personal practice sandbox that mirrors hands-on practice with the git +
 Terraform + CI loop, without touching any real infrastructure or credentials.
 
 ## One-time setup: Docker
