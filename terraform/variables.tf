@@ -7,3 +7,9 @@ variable "engineer_name" {
   # terraform.auto.tfvars. CI supplies its own value as a plain env var
   # in the workflow file (see .github/workflows/pr-checks.yml).
 }
+
+variable "hello_there" {
+  description = "A string to include in the generated greeting file"
+  type        = string
+  default     = "Hello there!"
+}
