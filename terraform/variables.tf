@@ -13,3 +13,8 @@ variable "hello_there" {
   type        = string
   default     = "Hello there!"
 }
+
+variable "greeting" {
+  description = "A string to include in the generated greeting file"
+  type        = string
+}
